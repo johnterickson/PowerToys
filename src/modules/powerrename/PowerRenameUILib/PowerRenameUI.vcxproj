@@ -198,6 +198,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <!-- 
+      D:\src\PowerToys\src\modules\powerrename\PowerRenameUILib\PowerRenameUI.vcxproj : warning : Project `SRC_MODULES_POWERRENAME_POWERRENAMEUILIB_POWERRENAMEUI.VCXPROJ_5_1UPKA8VROGSHFTILFS
+      CW` read the output `arm64\debug\winui3apps\microsoft.windows.system.winmd` from project `SRC_MODULES_MEASURETOOL_MEASURETOOLCORE_POWERTOYS.MEASURETOOLCORE.VCXPROJ_5_1UPKA8VROGSHFTILFS
+      CW` without having dependency path between the two projects.
+    -->
+    <!-- <ProjectReference
+      Include="..\..\MeasureTool\MeasureToolCore\PowerToys.MeasureToolCore.vcxproj"
+      ReferenceOutputAssembly="false"
+      LinkLibraryDependencies="false"
+      CopyLocal="false"
+      SkipGetTargetFrameworkProperties="true"
+      GlobalPropertiesToRemove="TargetFramework"
+    /> -->
+  </ItemGroup>
+  <ItemGroup>
     <ResourceCompile Include="PowerRenameUI.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -13,6 +13,13 @@
     <AnalysisMode>Recommended</AnalysisMode>
     <_SkipUpgradeNetAnalyzersNuGetWarning>true</_SkipUpgradeNetAnalyzersNuGetWarning>
     <PlatformTarget>$(Platform)</PlatformTarget>
+
+    <SkipCopyUnchangedFiles>true</SkipCopyUnchangedFiles>
+    <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
+
+    <PackagesConfigFile>$(MSBuildThisFileDirectory)\packages.config</PackagesConfigFile>
+    <PackagesConfigContents>$([System.IO.File]::ReadAllText("$(PackagesConfigFile)"))</PackagesConfigContents>
+    <MicrosoftWindowsAppSDKVersion>$([System.Text.RegularExpressions.Regex]::Match($(PackagesConfigContents), 'Microsoft\.WindowsAppSDK.*?version="(.*?)"').Groups[1].Value)</MicrosoftWindowsAppSDKVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
@@ -43,4 +50,60 @@
     </PackageReference>
   </ItemGroup>
 
+  <!--
+    multilple projects are all trying to deploy deps concurrently.  Let's pick one to go first and the rest can then no-op that part.
+    e.g.
+      D:\src\PowerToys\src\settings-ui\Settings.UI.UnitTests\Settings.UI.UnitTests.csproj : warning : 
+      Project `SRC_SETTINGS-UI_SETTINGS.UI.UNITTESTS_SETTINGS.UI.UNITTESTS.CSPROJ_AWFN7SRD57IKUKLINR9NPQ`
+      read the output `ARM64\Debug\WinUI3Apps\Microsoft.UI.Xaml\Assets\NoiseAsset_256X256_PNG.png` 
+      from project `SRC_MODULES_MEASURETOOL_MEASURETOOLCORE_POWERTOYS.MEASURETOOLCORE.VCXPROJ_AWFN7SRD57IKUKLINR9NPQ`
+      without having dependency path between the two projects.
+    e.g.
+      D:\src\PowerToys\src\modules\registrypreview\RegistryPreviewUI\RegistryPreviewUI.csproj : error : 
+      Node SRC_MODULES_REGISTRYPREVIEW_REGISTRYPREVIEWUI_REGISTRYPREVIEWUI.CSPROJ_0BV7ALFPJXOW2YB6B1WABQ 
+      produced output D:\src\PowerToys\ARM64\Debug\WinUI3Apps\DWriteCore.dll
+      which was already produced by another node SRC_MODULES_HOSTS_HOSTS_HOSTS.CSPROJ_0BV7ALFPJXOW2YB6B1WABQ.
+  -->
+  <ItemGroup Condition="($(OutputPath.EndsWith('\$(Platform)\$(Configuration)\WinUI3Apps')) or $(OutDir.EndsWith('\$(Platform)\$(Configuration)\WinUI3Apps\'))) and ('$(MSBuildProjectFile)' != 'Hosts.csproj')">
+    <ProjectReference
+      Include="$(MSBuildThisFileDirectory)\src\modules\Hosts\Hosts\Hosts.csproj"
+      ReferenceOutputAssembly="false"
+      LinkLibraryDependencies="false"
+      CopyLocal="false"
+      SkipGetTargetFrameworkProperties="true"
+      GlobalPropertiesToRemove="TargetFramework"
+    />
+  </ItemGroup>
+
+  <!-- MEMOBUILD -->
+  <PropertyGroup Condition="'$(MemoBuildPackageRoot)' == ''">
+    <MemoBuildPackageVersion>$([System.Text.RegularExpressions.Regex]::Match($(PackagesConfigContents), 'MemoBuild.*?version="(.*?)"').Groups[1].Value)</MemoBuildPackageVersion>
+    <MemoBuildPackageRoot>$(MSBuildThisFileDirectory)\packages\MemoBuild.$(MemoBuildPackageVersion)</MemoBuildPackageRoot>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Off by default -->
+    <MemoBuildEnabled Condition="'$(MemoBuildEnabled)' == ''">false</MemoBuildEnabled>
+
+    <!-- For local testing, use L3 -->
+    <MemoBuildCacheType Condition="'$(TF_BUILD)' == ''">AzureDevOpsBuildCache</MemoBuildCacheType>
+
+    <!-- In Azure pipelines, use Pipeline Caching as the cache storage backend -->
+    <MemoBuildCacheType Condition="'$(TF_BUILD)' != ''">AzurePipelines</MemoBuildCacheType>
+
+    <!-- vctip.exe is a detached process which outlives the project it's reporting telemetry on. Just ignore these accesses. -->
+    <!-- YIKES!!! -->
+    <MemoBuildAllowFileAccessAfterProjectFinish>true</MemoBuildAllowFileAccessAfterProjectFinish>
+
+    <!-- Change this to bust the cache -->
+    <MemoBuildCacheSalt>202309211245</MemoBuildCacheSalt>
+    <MemoBuildCacheUniverse>$([System.Text.RegularExpressions.Regex]::Replace("$(MemoBuildCacheSalt)", "[^a-zA-Z0-9]", "_"))</MemoBuildCacheUniverse>
+  </PropertyGroup>
+
+  <Import Project="$(MemoBuildPackageRoot)\build\MemoBuild.props" Condition="'$(MemoBuildPackageRoot)' != ''" />
+
+  <PropertyGroup>
+    <!-- Azure Pipelines provides _MSDeployUserAgent as a global property which we do not need to care about -->
+    <MemoBuildGlobalPropertiesToIgnore>$(MemoBuildGlobalPropertiesToIgnore);_MSDeployUserAgent</MemoBuildGlobalPropertiesToIgnore>
+  </PropertyGroup>
 </Project>
