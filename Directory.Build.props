@@ -96,7 +96,7 @@
     <MemoBuildAllowFileAccessAfterProjectFinish>true</MemoBuildAllowFileAccessAfterProjectFinish>
 
     <!-- Change this to bust the cache -->
-    <MemoBuildCacheSalt>202309211245</MemoBuildCacheSalt>
+    <MemoBuildCacheSalt>202309290317</MemoBuildCacheSalt>
     <MemoBuildCacheUniverse>$([System.Text.RegularExpressions.Regex]::Replace("$(MemoBuildCacheSalt)", "[^a-zA-Z0-9]", "_"))</MemoBuildCacheUniverse>
   </PropertyGroup>
 
