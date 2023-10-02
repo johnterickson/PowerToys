@@ -12,4 +12,4 @@ IF "%SYSTEM_TEAMFOUNDATIONCOLLECTIONURI%"=="https://dev.azure.com/artifactsandbo
     for /F %%I in ('az account get-access-token --query accessToken --output tsv') DO (set "SYSTEM_ACCESSTOKEN=%%I")
 )
 MSBuild.exe /t:restore || exit /b 1
-MSBuild.exe /graph /restore:false /nr:false /reportfileaccesses /bl %1 %2 %3 %4 %5 %6 %7 %8 %9
+MSBuild.exe /graph /restore:false /nr:false /reportfileaccesses /bl %*
