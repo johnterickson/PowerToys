@@ -2,5 +2,5 @@
   <Target Name="GenerateResourceFiles" BeforeTargets="PrepareForBuild">
     <Exec Command="powershell -NonInteractive -executionpolicy Unrestricted $(SolutionDir)tools\build\convert-resx-to-rc.ps1 ..\dll resource.base.h resource.h KeyboardManager.base.rc KeyboardManager.rc" />
   </Target>
-  <Import Project="..\..\..\Directory.Build.targets" />
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.targets', '$(MSBuildThisFileDirectory)..\'))" />
 </Project>
