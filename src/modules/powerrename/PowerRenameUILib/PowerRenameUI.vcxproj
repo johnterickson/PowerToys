@@ -203,14 +203,14 @@
       CW` read the output `arm64\debug\winui3apps\microsoft.windows.system.winmd` from project `SRC_MODULES_MEASURETOOL_MEASURETOOLCORE_POWERTOYS.MEASURETOOLCORE.VCXPROJ_5_1UPKA8VROGSHFTILFS
       CW` without having dependency path between the two projects.
     -->
-    <!-- <ProjectReference
+    <ProjectReference
       Include="..\..\MeasureTool\MeasureToolCore\PowerToys.MeasureToolCore.vcxproj"
       ReferenceOutputAssembly="false"
       LinkLibraryDependencies="false"
       CopyLocal="false"
       SkipGetTargetFrameworkProperties="true"
       GlobalPropertiesToRemove="TargetFramework"
-    /> -->
+    />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PowerRenameUI.rc" />
