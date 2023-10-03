@@ -95,7 +95,7 @@
   </PropertyGroup>
 
   <!-- MEMOBUILD -->
-  <ItemGroup Condition="'$(MemoBuildEnabled)' == 'true'">
+  <ItemGroup Condition="('$(MemoBuildEnabled)' == 'true') and ('$(MSBuildProjectFile)' != 'PowerToys.Interop.vcxproj') and ('$(MSBuildProjectFile)' != 'GPOWrapper')">
     <PackageReference Include="MemoBuild" />
   </ItemGroup>
 
