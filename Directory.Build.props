@@ -53,6 +53,10 @@
     C:\src\MsBuildDrop\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(161,5): error MSB3073: :VCEnd" exited with code 4. [D:\src\PowerToys\src\modules\MeasureTool\MeasureToolCore\PowerToys.MeasureToolCore.vcxproj]
     -->
     <MemoBuildIdenticalDuplicateOutputPatterns>$(MemoBuildIdenticalDuplicateOutputPatterns);$(Platform)\$(Configuration)\WinUI3Apps\Microsoft.WindowsAppRuntime.Bootstrap.dll</MemoBuildIdenticalDuplicateOutputPatterns>
+
+    <!-- vctip.exe is a detached process which outlives the project it's reporting telemetry on. Just ignore these accesses. -->
+    <!-- YIKES!!! -->
+    <MemoBuildAllowFileAccessAfterProjectFinish>true</MemoBuildAllowFileAccessAfterProjectFinish>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
@@ -83,11 +87,22 @@
     </PackageReference>
   </ItemGroup>
 
-  <!-- MEMOBUILD -->
-  <PropertyGroup>
-    <!-- Off by default -->
-    <MemoBuildEnabled Condition="'$(MemoBuildEnabled)' == ''">false</MemoBuildEnabled>
+  <!-- Enable PackageReference support for vcxproj -->
+  <ItemGroup Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">
+    <ProjectCapability Include="PackageReferences" />
+  </ItemGroup>
+  <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">
+    <EnableManagedPackageReferenceSupport>true</EnableManagedPackageReferenceSupport>
+    <AssetTargetFallback>$(AssetTargetFallback);native</AssetTargetFallback>
+    <!-- <TargetFrameworkMoniker>native,Version=v0.0</TargetFrameworkMoniker> -->
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <!-- <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v0.0</NuGetTargetMoniker> -->
   </PropertyGroup>
+
+  <!-- MEMOBUILD -->
+  <ItemGroup Condition="'$(MemoBuildEnabled)' == 'true'">
+    <PackageReference Include="MemoBuild" />
+  </ItemGroup>
 
   <PropertyGroup Condition="('$(MemoBuildEnabled)' == 'true') and ('$(MemoBuildPackageRoot)' == '')">
     <PackagesConfigFile>$(MSBuildThisFileDirectory)\packages.config</PackagesConfigFile>
@@ -103,19 +118,9 @@
     <!-- In Azure pipelines, use Pipeline Caching as the cache storage backend -->
     <MemoBuildCacheType Condition="'$(TF_BUILD)' != ''">AzurePipelines</MemoBuildCacheType>
 
-    <!-- vctip.exe is a detached process which outlives the project it's reporting telemetry on. Just ignore these accesses. -->
-    <!-- YIKES!!! -->
-    <MemoBuildAllowFileAccessAfterProjectFinish>true</MemoBuildAllowFileAccessAfterProjectFinish>
-
-    <!-- Change this to bust the cache -->
-    <MemoBuildCacheSalt>202310021235</MemoBuildCacheSalt>
-    <MemoBuildCacheUniverse>$([System.Text.RegularExpressions.Regex]::Replace("$(MemoBuildCacheSalt)", "[^a-zA-Z0-9]", "_"))</MemoBuildCacheUniverse>
+    <!-- Change this to reset the cache -->
+    <MemoBuildCacheUniverse>202310021235</MemoBuildCacheUniverse>
   </PropertyGroup>
 
   <Import Project="$(MemoBuildPackageRoot)\build\MemoBuild.props" Condition="'$(MemoBuildEnabled)' == 'true'" />
-
-  <PropertyGroup Condition="'$(MemoBuildEnabled)' == 'true'">
-    <!-- Azure Pipelines provides _MSDeployUserAgent as a global property which we do not need to care about -->
-    <MemoBuildGlobalPropertiesToIgnore>$(MemoBuildGlobalPropertiesToIgnore);_MSDeployUserAgent</MemoBuildGlobalPropertiesToIgnore>
-  </PropertyGroup>
 </Project>
