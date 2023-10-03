@@ -101,7 +101,7 @@
     <MemoBuildCacheSalt>202310021235</MemoBuildCacheSalt>
     <MemoBuildCacheUniverse>$([System.Text.RegularExpressions.Regex]::Replace("$(MemoBuildCacheSalt)", "[^a-zA-Z0-9]", "_"))</MemoBuildCacheUniverse>
 
-    <MemoBuildIdenticalDuplicateOutputPatterns>ARM64\Debug\WinUI3Apps\Microsoft.WindowsAppRuntime.Bootstrap.dll</MemoBuildIdenticalDuplicateOutputPatterns>
+    <MemoBuildIdenticalDuplicateOutputPatterns>ARM64\$(Configuration)\WinUI3Apps\Microsoft.WindowsAppRuntime.Bootstrap.dll</MemoBuildIdenticalDuplicateOutputPatterns>
   </PropertyGroup>
 
   <Import Project="$(MemoBuildPackageRoot)\build\MemoBuild.props" Condition="'$(MemoBuildEnabled)' == 'true'" />
