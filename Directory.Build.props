@@ -90,14 +90,15 @@
   <!-- Enable PackageReference support for vcxproj -->
   <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">
     <EnableManagedPackageReferenceSupport>true</EnableManagedPackageReferenceSupport>
-    <AssetTargetFallback>$(AssetTargetFallback);native;unsupported</AssetTargetFallback>
+    <AssetTargetFallback>$(AssetTargetFallback);net70windows70;native;unsupported</AssetTargetFallback>
     <TargetFrameworkMoniker>net7.0-windows7.0</TargetFrameworkMoniker>
   </PropertyGroup>
 
   <!-- MEMOBUILD -->
   <ItemGroup Condition="'$(MemoBuildEnabled)' == 'true'">
     <PackageReference Include="MemoBuild">
-      <IncludeAssets>build</IncludeAssets>
+      <IncludeAssets>Analyzers;Build;BuildMultitargeting;BuildTransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
 
