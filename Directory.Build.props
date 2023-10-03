@@ -88,15 +88,10 @@
   </ItemGroup>
 
   <!-- Enable PackageReference support for vcxproj -->
-  <ItemGroup Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">
-    <ProjectCapability Include="PackageReferences" />
-  </ItemGroup>
   <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">
     <EnableManagedPackageReferenceSupport>true</EnableManagedPackageReferenceSupport>
     <AssetTargetFallback>$(AssetTargetFallback);native</AssetTargetFallback>
-    <!-- <TargetFrameworkMoniker>native,Version=v0.0</TargetFrameworkMoniker> -->
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
-    <!-- <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == ''">native,Version=v0.0</NuGetTargetMoniker> -->
+    <TargetFrameworkMoniker>native,Version=v0.0</TargetFrameworkMoniker>
   </PropertyGroup>
 
   <!-- MEMOBUILD -->
