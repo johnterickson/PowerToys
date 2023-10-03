@@ -90,13 +90,15 @@
   <!-- Enable PackageReference support for vcxproj -->
   <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">
     <EnableManagedPackageReferenceSupport>true</EnableManagedPackageReferenceSupport>
-    <AssetTargetFallback>$(AssetTargetFallback);native</AssetTargetFallback>
-    <TargetFrameworkMoniker>net7.0-windows10.0.20348</TargetFrameworkMoniker>
+    <AssetTargetFallback>$(AssetTargetFallback);native;unsupported</AssetTargetFallback>
+    <TargetFrameworkMoniker>native,Version=v0.0</TargetFrameworkMoniker>
   </PropertyGroup>
 
   <!-- MEMOBUILD -->
-  <ItemGroup Condition="('$(MemoBuildEnabled)' == 'true') and ('$(MSBuildProjectFile)' != 'PowerToys.Interop.vcxproj') and ('$(MSBuildProjectFile)' != 'GPOWrapper')">
-    <PackageReference Include="MemoBuild" />
+  <ItemGroup Condition="'$(MemoBuildEnabled)' == 'true'">
+    <PackageReference Include="MemoBuild">
+      <IncludeAssets>build</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <PropertyGroup Condition="('$(MemoBuildEnabled)' == 'true') and ('$(MemoBuildPackageRoot)' == '')">
