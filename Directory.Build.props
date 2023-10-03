@@ -13,6 +13,13 @@
     <AnalysisMode>Recommended</AnalysisMode>
     <_SkipUpgradeNetAnalyzersNuGetWarning>true</_SkipUpgradeNetAnalyzersNuGetWarning>
     <PlatformTarget>$(Platform)</PlatformTarget>
+
+    <!-- <SkipCopyUnchangedFiles>true</SkipCopyUnchangedFiles>
+    <UseCommonOutputDirectory>true</UseCommonOutputDirectory> -->
+
+    <PackagesConfigFile>$(MSBuildThisFileDirectory)\packages.config</PackagesConfigFile>
+    <PackagesConfigContents>$([System.IO.File]::ReadAllText("$(PackagesConfigFile)"))</PackagesConfigContents>
+    <MicrosoftWindowsAppSDKVersion>$([System.Text.RegularExpressions.Regex]::Match($(PackagesConfigContents), 'Microsoft\.WindowsAppSDK.*?version="(.*?)"').Groups[1].Value)</MicrosoftWindowsAppSDKVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
@@ -43,4 +50,37 @@
     </PackageReference>
   </ItemGroup>
 
+  <!-- MEMOBUILD -->
+  <PropertyGroup>
+    <!-- Off by default -->
+    <MemoBuildEnabled Condition="'$(MemoBuildEnabled)' == ''">false</MemoBuildEnabled>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="('$(MemoBuildEnabled)' == 'true') and ('$(MemoBuildPackageRoot)' == '')">
+    <MemoBuildPackageVersion>$([System.Text.RegularExpressions.Regex]::Match($(PackagesConfigContents), 'MemoBuild.*?version="(.*?)"').Groups[1].Value)</MemoBuildPackageVersion>
+    <MemoBuildPackageRoot>$(MSBuildThisFileDirectory)\packages\MemoBuild.$(MemoBuildPackageVersion)</MemoBuildPackageRoot>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(MemoBuildEnabled)' == 'true'">
+    <!-- For local testing, use L3 -->
+    <MemoBuildCacheType Condition="'$(TF_BUILD)' == ''">AzureDevOpsBuildCache</MemoBuildCacheType>
+
+    <!-- In Azure pipelines, use Pipeline Caching as the cache storage backend -->
+    <MemoBuildCacheType Condition="'$(TF_BUILD)' != ''">AzurePipelines</MemoBuildCacheType>
+
+    <!-- vctip.exe is a detached process which outlives the project it's reporting telemetry on. Just ignore these accesses. -->
+    <!-- YIKES!!! -->
+    <MemoBuildAllowFileAccessAfterProjectFinish>true</MemoBuildAllowFileAccessAfterProjectFinish>
+
+    <!-- Change this to bust the cache -->
+    <MemoBuildCacheSalt>202310021235</MemoBuildCacheSalt>
+    <MemoBuildCacheUniverse>$([System.Text.RegularExpressions.Regex]::Replace("$(MemoBuildCacheSalt)", "[^a-zA-Z0-9]", "_"))</MemoBuildCacheUniverse>
+  </PropertyGroup>
+
+  <Import Project="$(MemoBuildPackageRoot)\build\MemoBuild.props" Condition="'$(MemoBuildEnabled)' == 'true'" />
+
+  <PropertyGroup Condition="'$(MemoBuildEnabled)' == 'true'">
+    <!-- Azure Pipelines provides _MSDeployUserAgent as a global property which we do not need to care about -->
+    <MemoBuildGlobalPropertiesToIgnore>$(MemoBuildGlobalPropertiesToIgnore);_MSDeployUserAgent</MemoBuildGlobalPropertiesToIgnore>
+  </PropertyGroup>
 </Project>
