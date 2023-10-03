@@ -45,7 +45,14 @@
     which was already produced by another node 
     SRC_MODULES_PREVIEWPANE_MARKDOWNPREVIEWHANDLER_MARKDOWNPREVIEWHANDLER.CSPROJ_NJEM_KRAT5EYSQXF3Q89GA.
     -->
-    <IdenticalDuplicateOutputPatterns>ARM64\Release\Assets\Monaco\monacoSRC\min\vs\base\common\worker\simpleWorker.nls.js</IdenticalDuplicateOutputPatterns>
+    <MemoBuildIdenticalDuplicateOutputPatterns>ARM64\$(Configuration)\Assets\Monaco\monacoSRC\min\vs\base\common\worker\simpleWorker.nls.js</MemoBuildIdenticalDuplicateOutputPatterns>
+
+    <!--
+    C:\src\MsBuildDrop\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(161,5): error MSB3073: The command "xcopy.exe /y "D:\src\PowerToys\packages\Microsoft.WindowsAppSDK.1.4.230913002\build\native\..\..\runtimes\win10-ARM64\native\Microsoft.WindowsAppRuntim
+    e.Bootstrap.dll" "..\..\..\..\ARM64\Release\WinUI3Apps\" [D:\src\PowerToys\src\modules\MeasureTool\MeasureToolCore\PowerToys.MeasureToolCore.vcxproj]
+    C:\src\MsBuildDrop\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(161,5): error MSB3073: :VCEnd" exited with code 4. [D:\src\PowerToys\src\modules\MeasureTool\MeasureToolCore\PowerToys.MeasureToolCore.vcxproj]
+    -->
+    <MemoBuildIdenticalDuplicateOutputPatterns>$(MemoBuildIdenticalDuplicateOutputPatterns);ARM64\$(Configuration)\WinUI3Apps\Microsoft.WindowsAppRuntime.Bootstrap.dll</MemoBuildIdenticalDuplicateOutputPatterns>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
