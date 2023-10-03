@@ -91,7 +91,7 @@
   <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">
     <EnableManagedPackageReferenceSupport>true</EnableManagedPackageReferenceSupport>
     <AssetTargetFallback>$(AssetTargetFallback);native</AssetTargetFallback>
-    <TargetFrameworkMoniker>native,Version=v0.0</TargetFrameworkMoniker>
+    <TargetFrameworkMoniker>net7.0-windows10.0.20348</TargetFrameworkMoniker>
   </PropertyGroup>
 
   <!-- MEMOBUILD -->
