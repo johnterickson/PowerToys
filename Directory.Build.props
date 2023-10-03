@@ -113,9 +113,4 @@
   </PropertyGroup>
 
   <Import Project="$(MemoBuildPackageRoot)\build\MemoBuild.props" Condition="'$(MemoBuildEnabled)' == 'true'" />
-
-  <PropertyGroup Condition="'$(MemoBuildEnabled)' == 'true'">
-    <!-- Azure Pipelines provides _MSDeployUserAgent as a global property which we do not need to care about -->
-    <MemoBuildGlobalPropertiesToIgnore>$(MemoBuildGlobalPropertiesToIgnore);_MSDeployUserAgent</MemoBuildGlobalPropertiesToIgnore>
-  </PropertyGroup>
 </Project>
