@@ -108,8 +108,7 @@
     <MemoBuildAllowFileAccessAfterProjectFinish>true</MemoBuildAllowFileAccessAfterProjectFinish>
 
     <!-- Change this to bust the cache -->
-    <MemoBuildCacheSalt>202310021235</MemoBuildCacheSalt>
-    <MemoBuildCacheUniverse>$([System.Text.RegularExpressions.Regex]::Replace("$(MemoBuildCacheSalt)", "[^a-zA-Z0-9]", "_"))</MemoBuildCacheUniverse>
+    <MemoBuildCacheUniverse>202310051629</MemoBuildCacheUniverse>
   </PropertyGroup>
 
   <Import Project="$(MemoBuildPackageRoot)\build\MemoBuild.props" Condition="'$(MemoBuildEnabled)' == 'true'" />
