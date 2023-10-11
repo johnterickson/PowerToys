@@ -15,43 +15,22 @@
     <PlatformTarget>$(Platform)</PlatformTarget>
 
     <!-- 
-       "D:\src\PowerToys\src\modules\previewpane\PdfThumbnailProvider\PdfThumbnailProvider.csproj" (Build;GetTargetFrameworks;GetNativeManifest;GetCopyToOutputDirectoryItems;GetTargetFrameworksWithPlatformForSingleTargetFramework target) (23) ->
+      There was lots of racing to copy the same files to the same output directory because these
+      two properties were set to false.
+        e.g.
+      "D:\src\PowerToys\src\modules\previewpane\PdfThumbnailProvider\PdfThumbnailProvider.csproj" (Build;GetTargetFrameworks;GetNativeManifest;GetCopyToOutputDirectoryItems;GetTargetFrameworksWithPlatformForSingleTargetFramework target) (23) ->
          C:\src\MsBuildDrop\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(4879,5): warning MSB3026: Could not copy "D:\.tools\.nuget\packages\microsoft.windowsdesktop.app.runtime.win-arm64\7.0.11\runtimes\win-arm64\lib\net7.0\Microsoft.Win32.SystemE
        vents.dll" to "..\..\..\..\ARM64\Release\Microsoft.Win32.SystemEvents.dll". Beginning retry 1 in 1000ms. The process cannot access the file '..\..\..\..\ARM64\Release\Microsoft.Win32.SystemEvents.dll' because it is being used by another process.  [D:\src\PowerTo
-       ys\src\modules\previewpane\PdfThumbnailProvider\PdfThumbnailProvider.csproj]
-         C:\src\MsBuildDrop\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(4879,5): warning MSB3026: Could not copy "D:\.tools\.nuget\packages\microsoft.windowsdesktop.app.runtime.win-arm64\7.0.11\runtimes\win-arm64\lib\net7.0\PresentationFramework-S
-       ystemXmlLinq.dll" to "..\..\..\..\ARM64\Release\PresentationFramework-SystemXmlLinq.dll". Beginning retry 1 in 1000ms. The process cannot access the file '..\..\..\..\ARM64\Release\PresentationFramework-SystemXmlLinq.dll' because it is being used by another proc
-       ess.  [D:\src\PowerToys\src\modules\previewpane\PdfThumbnailProvider\PdfThumbnailProvider.csproj]
-         C:\src\MsBuildDrop\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(4879,5): warning MSB3026: Could not copy "D:\.tools\.nuget\packages\microsoft.windowsdesktop.app.runtime.win-arm64\7.0.11\runtimes\win-arm64\lib\net7.0\Microsoft.Win32.Registr
-       y.AccessControl.dll" to "..\..\..\..\ARM64\Release\Microsoft.Win32.Registry.AccessControl.dll". Beginning retry 1 in 1000ms. The process cannot access the file '..\..\..\..\ARM64\Release\Microsoft.Win32.Registry.AccessControl.dll' because it is being used by ano
-       ther process.  [D:\src\PowerToys\src\modules\previewpane\PdfThumbnailProvider\PdfThumbnailProvider.csproj]
-         C:\src\MsBuildDrop\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(4879,5): warning MSB3026: Could not copy "D:\.tools\.nuget\packages\microsoft.windowsdesktop.app.runtime.win-arm64\7.0.11\runtimes\win-arm64\lib\net7.0\PresentationCore.dll" t
-       o "..\..\..\..\ARM64\Release\PresentationCore.dll". Beginning retry 1 in 1000ms. The process cannot access the file '..\..\..\..\ARM64\Release\PresentationCore.dll' because it is being used by another process.  [D:\src\PowerToys\src\modules\previewpane\PdfThumbn
-       ailProvider\PdfThumbnailProvider.csproj]
-         C:\src\MsBuildDrop\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(4879,5): warning MSB3026: Could not copy "D:\.tools\.nuget\packages\microsoft.windowsdesktop.app.runtime.win-arm64\7.0.11\runtimes\win-arm64\lib\net7.0\PresentationFramework-S
-       ystemXml.dll" to "..\..\..\..\ARM64\Release\PresentationFramework-SystemXml.dll". Beginning retry 1 in 1000ms. The process cannot access the file '..\..\..\..\ARM64\Release\PresentationFramework-SystemXml.dll' because it is being used by another process.  [D:\sr
-       c\PowerToys\src\modules\previewpane\PdfThumbnailProvider\PdfThumbnailProvider.csproj]
-         C:\src\MsBuildDrop\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(4879,5): warning MSB3026: Could not copy "D:\.tools\.nuget\packages\microsoft.windowsdesktop.app.runtime.win-arm64\7.0.11\runtimes\win-arm64\lib\net7.0\PresentationFramework.A
-       eroLite.dll" to "..\..\..\..\ARM64\Release\PresentationFramework.AeroLite.dll". Beginning retry 1 in 1000ms. The process cannot access the file '..\..\..\..\ARM64\Release\PresentationFramework.AeroLite.dll' because it is being used by another process.  [D:\src\P
-       owerToys\src\modules\previewpane\PdfThumbnailProvider\PdfThumbnailProvider.csproj]
     -->
     <SkipCopyUnchangedFiles>true</SkipCopyUnchangedFiles>
     <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
 
     <!--
-    D:\src\PowerToys\src\modules\previewpane\MonacoPreviewHandler\MonacoPreviewHandler.csproj : error : Node 
-    SRC_MODULES_PREVIEWPANE_MONACOPREVIEWHANDLER_MONACOPREVIEWHANDLER.CSPROJ_NJEM_KRAT5EYSQXF3Q89GA produced output 
-    ARM64\Release\Assets\Monaco\monacoSRC\min\vs\base\common\worker\simpleWorker.nls.js 
-    which was already produced by another node 
-    SRC_MODULES_PREVIEWPANE_MARKDOWNPREVIEWHANDLER_MARKDOWNPREVIEWHANDLER.CSPROJ_NJEM_KRAT5EYSQXF3Q89GA.
+      Memobuild works best when an output file is only generated by one project.
+      We can opt-in certain files to warn MemoBuild that they will be written
+      to by multiple projects.  It can then ensure this is done safely and deterministically.
     -->
     <MemoBuildIdenticalDuplicateOutputPatterns>$(MemoBuildIdenticalDuplicateOutputPatterns);$(Platform)\$(Configuration)\Assets\Monaco\monacoSRC\min\vs\base\common\worker\simpleWorker.nls.js</MemoBuildIdenticalDuplicateOutputPatterns>
-
-    <!--
-    C:\src\MsBuildDrop\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(161,5): error MSB3073: The command "xcopy.exe /y "D:\src\PowerToys\packages\Microsoft.WindowsAppSDK.1.4.230913002\build\native\..\..\runtimes\win10-ARM64\native\Microsoft.WindowsAppRuntim
-    e.Bootstrap.dll" "..\..\..\..\ARM64\Release\WinUI3Apps\" [D:\src\PowerToys\src\modules\MeasureTool\MeasureToolCore\PowerToys.MeasureToolCore.vcxproj]
-    C:\src\MsBuildDrop\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(161,5): error MSB3073: :VCEnd" exited with code 4. [D:\src\PowerToys\src\modules\MeasureTool\MeasureToolCore\PowerToys.MeasureToolCore.vcxproj]
-    -->
     <MemoBuildIdenticalDuplicateOutputPatterns>$(MemoBuildIdenticalDuplicateOutputPatterns);$(Platform)\$(Configuration)\WinUI3Apps\Microsoft.WindowsAppRuntime.Bootstrap.dll</MemoBuildIdenticalDuplicateOutputPatterns>
   </PropertyGroup>
 

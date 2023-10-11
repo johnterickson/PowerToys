@@ -351,6 +351,3 @@ src/common/Telemetry/*.etl
 
 # MemoBuild
 /MemoBuildLogs/
-
-# nuget
-/tools/nuget.exe
