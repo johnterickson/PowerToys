@@ -64,10 +64,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.vcxproj'">
-    <PreprocessorDefinitions>$(DefineConstants);_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING</PreprocessorDefinitions>
-  </PropertyGroup>
-
   <PropertyGroup>
     <_PropertySheetDisplayName>PowerToys.Root.Props</_PropertySheetDisplayName>
     <ForceImportBeforeCppProps>$(MsbuildThisFileDirectory)\Cpp.Build.props</ForceImportBeforeCppProps>

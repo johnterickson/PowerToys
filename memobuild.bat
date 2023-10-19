@@ -20,4 +20,4 @@ IF "%SYSTEM_TEAMFOUNDATIONCOLLECTIONURI%"=="https://dev.azure.com/artifactsandbo
 MSBuild.exe /t:restore /p:Platform=%PLATFORM% || exit /b 1
 set MSBUILDDEBUGONSTART=%MSBUILDDEBUGONSTART_ORIGINAL%
 echo MSBUILDDEBUGONSTART=%MSBUILDDEBUGONSTART%
-MSBuild.exe /graph /restore:false /nr:false /reportfileaccesses /bl /p:Platform=%PLATFORM% %*
+MSBuild.exe /graph /restore:false /nr:false /reportfileaccesses /bl /p:Platform=%PLATFORM% /p:MemoBuildEnabled=true %*
