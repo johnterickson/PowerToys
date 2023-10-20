@@ -19,21 +19,6 @@
          C:\src\MsBuildDrop\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(4879,5): warning MSB3026: Could not copy "D:\.tools\.nuget\packages\microsoft.windowsdesktop.app.runtime.win-arm64\7.0.11\runtimes\win-arm64\lib\net7.0\Microsoft.Win32.SystemE
        vents.dll" to "..\..\..\..\ARM64\Release\Microsoft.Win32.SystemEvents.dll". Beginning retry 1 in 1000ms. The process cannot access the file '..\..\..\..\ARM64\Release\Microsoft.Win32.SystemEvents.dll' because it is being used by another process.  [D:\src\PowerTo
        ys\src\modules\previewpane\PdfThumbnailProvider\PdfThumbnailProvider.csproj]
-         C:\src\MsBuildDrop\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(4879,5): warning MSB3026: Could not copy "D:\.tools\.nuget\packages\microsoft.windowsdesktop.app.runtime.win-arm64\7.0.11\runtimes\win-arm64\lib\net7.0\PresentationFramework-S
-       ystemXmlLinq.dll" to "..\..\..\..\ARM64\Release\PresentationFramework-SystemXmlLinq.dll". Beginning retry 1 in 1000ms. The process cannot access the file '..\..\..\..\ARM64\Release\PresentationFramework-SystemXmlLinq.dll' because it is being used by another proc
-       ess.  [D:\src\PowerToys\src\modules\previewpane\PdfThumbnailProvider\PdfThumbnailProvider.csproj]
-         C:\src\MsBuildDrop\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(4879,5): warning MSB3026: Could not copy "D:\.tools\.nuget\packages\microsoft.windowsdesktop.app.runtime.win-arm64\7.0.11\runtimes\win-arm64\lib\net7.0\Microsoft.Win32.Registr
-       y.AccessControl.dll" to "..\..\..\..\ARM64\Release\Microsoft.Win32.Registry.AccessControl.dll". Beginning retry 1 in 1000ms. The process cannot access the file '..\..\..\..\ARM64\Release\Microsoft.Win32.Registry.AccessControl.dll' because it is being used by ano
-       ther process.  [D:\src\PowerToys\src\modules\previewpane\PdfThumbnailProvider\PdfThumbnailProvider.csproj]
-         C:\src\MsBuildDrop\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(4879,5): warning MSB3026: Could not copy "D:\.tools\.nuget\packages\microsoft.windowsdesktop.app.runtime.win-arm64\7.0.11\runtimes\win-arm64\lib\net7.0\PresentationCore.dll" t
-       o "..\..\..\..\ARM64\Release\PresentationCore.dll". Beginning retry 1 in 1000ms. The process cannot access the file '..\..\..\..\ARM64\Release\PresentationCore.dll' because it is being used by another process.  [D:\src\PowerToys\src\modules\previewpane\PdfThumbn
-       ailProvider\PdfThumbnailProvider.csproj]
-         C:\src\MsBuildDrop\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(4879,5): warning MSB3026: Could not copy "D:\.tools\.nuget\packages\microsoft.windowsdesktop.app.runtime.win-arm64\7.0.11\runtimes\win-arm64\lib\net7.0\PresentationFramework-S
-       ystemXml.dll" to "..\..\..\..\ARM64\Release\PresentationFramework-SystemXml.dll". Beginning retry 1 in 1000ms. The process cannot access the file '..\..\..\..\ARM64\Release\PresentationFramework-SystemXml.dll' because it is being used by another process.  [D:\sr
-       c\PowerToys\src\modules\previewpane\PdfThumbnailProvider\PdfThumbnailProvider.csproj]
-         C:\src\MsBuildDrop\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(4879,5): warning MSB3026: Could not copy "D:\.tools\.nuget\packages\microsoft.windowsdesktop.app.runtime.win-arm64\7.0.11\runtimes\win-arm64\lib\net7.0\PresentationFramework.A
-       eroLite.dll" to "..\..\..\..\ARM64\Release\PresentationFramework.AeroLite.dll". Beginning retry 1 in 1000ms. The process cannot access the file '..\..\..\..\ARM64\Release\PresentationFramework.AeroLite.dll' because it is being used by another process.  [D:\src\P
-       owerToys\src\modules\previewpane\PdfThumbnailProvider\PdfThumbnailProvider.csproj]
     -->
     <SkipCopyUnchangedFiles>true</SkipCopyUnchangedFiles>
     <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
@@ -102,10 +87,6 @@
 
     <!-- In Azure pipelines, use Pipeline Caching as the cache storage backend -->
     <MemoBuildCacheType Condition="'$(TF_BUILD)' != ''">AzurePipelines</MemoBuildCacheType>
-
-    <!-- vctip.exe is a detached process which outlives the project it's reporting telemetry on. Just ignore these accesses. -->
-    <!-- YIKES!!! -->
-    <MemoBuildAllowFileAccessAfterProjectFinish>true</MemoBuildAllowFileAccessAfterProjectFinish>
 
     <!-- Change this to bust the cache -->
     <MemoBuildCacheUniverse>202310051629</MemoBuildCacheUniverse>
