@@ -38,6 +38,13 @@
     C:\src\MsBuildDrop\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(161,5): error MSB3073: :VCEnd" exited with code 4. [D:\src\PowerToys\src\modules\MeasureTool\MeasureToolCore\PowerToys.MeasureToolCore.vcxproj]
     -->
     <MemoBuildIdenticalDuplicateOutputPatterns>$(MemoBuildIdenticalDuplicateOutputPatterns);$(Platform)\$(Configuration)\WinUI3Apps\Microsoft.WindowsAppRuntime.Bootstrap.dll</MemoBuildIdenticalDuplicateOutputPatterns>
+
+    <!-- 
+    File access reported from process `Unknown Process with Id 5704` after the project finished. This may lead to incorrect caching.
+    Node Id: SRC_MODULES_POWERRENAME_POWERRENAMEUILIB_POWERRENAMEUI.VCXPROJ_EACAMVG6F4CLWRQBRTAINW, 
+    Path: D:\a\_work\2\s\packages\Microsoft.WindowsAppSDK.1.4.230913002\tools\net472\ApplicationInsights.config  
+    -->
+    <MemoBuildAllowProcessCloseAfterProjectFinishPatterns>packages\Microsoft.WindowsAppSDK.*\tools\net472\ApplicationInsights.config</MemoBuildAllowProcessCloseAfterProjectFinishPatterns>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
