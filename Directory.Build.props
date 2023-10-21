@@ -44,7 +44,7 @@
     Node Id: SRC_MODULES_POWERRENAME_POWERRENAMEUILIB_POWERRENAMEUI.VCXPROJ_EACAMVG6F4CLWRQBRTAINW, 
     Path: D:\a\_work\2\s\packages\Microsoft.WindowsAppSDK.1.4.230913002\tools\net472\ApplicationInsights.config  
     -->
-    <MemoBuildAllowProcessCloseAfterProjectFinishPatterns>packages\Microsoft.WindowsAppSDK.*\tools\net472\ApplicationInsights.config</MemoBuildAllowProcessCloseAfterProjectFinishPatterns>
+    <MemoBuildAllowFileAccessAfterProjectFinishPatterns>packages\Microsoft.WindowsAppSDK.*\tools\net472\ApplicationInsights.config</MemoBuildAllowFileAccessAfterProjectFinishPatterns>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
