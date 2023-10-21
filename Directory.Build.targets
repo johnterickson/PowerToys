@@ -1,3 +1,4 @@
 <Project>
-  <Import Project="$(MemoBuildPackageRoot)\build\MemoBuild.targets" Condition="'$(MemoBuildPackageRoot)' != ''" />
+  <Import Project="$(MemoBuildPackageRoot)\build\MemoBuild.targets" Condition="'$(MemoBuildEnabled)' == 'true'" />
+  <Import Project="$(MemoBuildSharedCompilationPackageRoot)\build\MemoBuild.SharedCompilation.targets" Condition="'$(MemoBuildEnabled)' == 'true'" />
 </Project>

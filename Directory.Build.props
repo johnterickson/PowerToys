@@ -86,6 +86,7 @@
     <PackagesConfigContents>$([System.IO.File]::ReadAllText("$(PackagesConfigFile)"))</PackagesConfigContents>
     <MemoBuildPackageVersion>$([System.Text.RegularExpressions.Regex]::Match($(PackagesConfigContents), 'MemoBuild.*?version="(.*?)"').Groups[1].Value)</MemoBuildPackageVersion>
     <MemoBuildPackageRoot>$(MSBuildThisFileDirectory)\packages\MemoBuild.$(MemoBuildPackageVersion)</MemoBuildPackageRoot>
+    <MemoBuildSharedCompilationPackageRoot>$(MSBuildThisFileDirectory)\packages\MemoBuild.SharedCompilation.$(MemoBuildPackageVersion)</MemoBuildSharedCompilationPackageRoot>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MemoBuildEnabled)' == 'true'">
@@ -100,4 +101,5 @@
   </PropertyGroup>
 
   <Import Project="$(MemoBuildPackageRoot)\build\MemoBuild.props" Condition="'$(MemoBuildEnabled)' == 'true'" />
+  <Import Project="$(MemoBuildSharedCompilationPackageRoot)\build\MemoBuild.SharedCompilation.props" Condition="'$(MemoBuildEnabled)' == 'true'" />
 </Project>
