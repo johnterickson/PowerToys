@@ -97,7 +97,7 @@
     <MemoBuildCacheType Condition="'$(TF_BUILD)' != ''">AzurePipelines</MemoBuildCacheType>
 
     <!-- Change this to bust the cache -->
-    <MemoBuildCacheUniverse>202310051629</MemoBuildCacheUniverse>
+    <MemoBuildCacheUniverse>202310210737</MemoBuildCacheUniverse>
   </PropertyGroup>
 
   <Import Project="$(MemoBuildPackageRoot)\build\MemoBuild.props" Condition="'$(MemoBuildEnabled)' == 'true'" />
