@@ -1,0 +1,98 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: windows-latest
+
+variables:
+  EnableQuickBuildCachePlugin: false
+  MSBuildDro:pName: 'memobuild-msbuild-17.6-vc/2023.08.04.2'
+  NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
+  # SDL
+  Codeql.Enabled: false
+  runCodesignValidationInjection: false
+  skipComponentGovernanceDetection: true
+  skipNugetSecurityAnalysis: true
+  # perf
+  VSO_DEDUP_REDIRECT_TIMEOUT_IN_SEC: 5
+
+strategy:
+  matrix:
+    x64-baseline:
+      Platform: x64
+      MemoBuildEnabled: false
+    arm64-baseline:
+      Platform: arm64
+      MemoBuildEnabled: false
+    x64-memobuild-drop:
+      Platform: x64
+      MemoBuildEnabled: true
+    arm64-memobuild-drop:
+      Platform: arm64
+      MemoBuildEnabled: true
+
+steps:
+# clean up
+- script: git clean -xdf
+# set up env
+- task: Cache@2
+  displayName: 'Cache MSBuild Drop'
+  inputs:
+    key: '"msbuild" | "$(MSBuildDropName)"'
+    path: '$(Build.ArtifactStagingDirectory)\msbuild'
+    cacheHitVar: 'MSBUILD_RESTORED'
+- task: ms-vscs-artifact.build-tasks.artifactDropDownloadTask-1.artifactDropDownloadTask@1
+  displayName: 'Download MSBuild Drop'
+  inputs:
+    dropServiceURI: 'https://mseng.artifacts.visualstudio.com/DefaultCollection'
+    buildNumber: '$(MSBuildDropName)'
+    destinationPath: '$(Build.ArtifactStagingDirectory)\msbuild'
+  condition: ne(variables.MSBUILD_RESTORED, 'true')
+- task: UseDotNet@2
+  displayName: 'Install .NET SDK'
+  inputs:
+    useGlobalJson: true
+- script: dotnet nuget locals http-cache -c
+- task: BatchScript@1
+  displayName: VsDevCmd.bat
+  inputs:
+    filename: '$(Build.ArtifactStagingDirectory)\msbuild\Common7\Tools\VsDevCmd.bat'
+    modifyEnvironment: true
+
+# restore
+- task: NuGetAuthenticate@1
+  displayName: 'NuGet Authenticate'
+- script: |
+   curl.exe https://dist.nuget.org/win-x86-commandline/v6.7.0/nuget.exe -o tools\nuget.exe
+   tools\nuget restore .\PowerToys.sln
+  displayName: 'nuget restore'
+# restore memobuild
+- script: |
+   tools\nuget restore packages.config -SolutionDirectory .
+  displayName: 'nuget restore'
+  condition: eq(variables.MemoBuildEnabled, 'true')
+- script: 'MSBuild.exe /t:Restore /bl:$(Build.ArtifactStagingDirectory)\Logs\restore.binlog /p:Platform=arm64'
+  displayName: Restore
+
+# build
+- script: 'MSBuild.exe /restore:false /bl:$(Build.ArtifactStagingDirectory)\Logs\msbuild.binlog /p:Platform=arm64 /p:Configuration=Release'
+  displayName: Build
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
+# logs
+- script: move MemoBuildLogs $(Build.ArtifactStagingDirectory)\Logs\
+  displayName: 'Capture MemoBuildLogs'
+  continueOnError: true
+  condition: eq(variables.MemoBuildEnabled, 'true')
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Logs'
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)\Logs'
+    artifact: '$(System.JobDisplayName) Logs'
+  condition: always()
