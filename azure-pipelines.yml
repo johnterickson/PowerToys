@@ -133,17 +133,18 @@ steps:
   inputs:
     key: '"nuget"'
     path: '$(NUGET_PACKAGES)'
+# tools
 - task: NuGetAuthenticate@1
   displayName: 'NuGet Authenticate'
-- script: |
-   curl.exe https://dist.nuget.org/win-x86-commandline/v6.7.0/nuget.exe -o tools\nuget.exe
-   tools\nuget restore .\PowerToys.sln
-  displayName: 'nuget restore'
+- script: curl.exe https://dist.nuget.org/win-x86-commandline/v6.7.0/nuget.exe -o tools\nuget.exe
+  displayName: 'acquire nuget'
 # restore memobuild
-- script: |
-   tools\nuget restore packages.config -SolutionDirectory .
-  displayName: 'nuget restore'
+- script: tools\nuget restore packages.config -SolutionDirectory .
+  displayName: 'nuget restore memobuild'
   condition: eq(variables.MemoBuildEnabled, 'true')
+# restore
+- script: tools\nuget restore .\PowerToys.sln
+  displayName: 'nuget restore'
 - script: 'MSBuild.exe /t:Restore /bl:$(Build.ArtifactStagingDirectory)\Logs\restore.binlog /p:Platform=arm64'
   displayName: Restore
 
