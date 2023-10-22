@@ -6,6 +6,10 @@
 trigger:
 - main
 
+# run every hour
+schedules:
+  - cron: 30 * * * *
+
 pool:
   name: 'MemoBuild-Pool'
 
