@@ -69,6 +69,8 @@ strategy:
       
 
 steps:
+- checkout: self
+  submodules: recursive
 # clean up
 - script: git clean -xdf
 # set up env (vs preview)
