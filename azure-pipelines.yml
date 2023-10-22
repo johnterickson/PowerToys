@@ -13,6 +13,7 @@ variables:
   EnableQuickBuildCachePlugin: false
   MSBuildDropName: memobuild-msbuild-17.6-vc/2023.08.04.2
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
+  MsBuildDropTarget: c:\msbuild
   # SDL
   Codeql.Enabled: false
   runCodesignValidationInjection: false
@@ -23,26 +24,38 @@ variables:
 
 strategy:
   matrix:
+
+# no disk space??
     x64-baseline-drop:
       Platform: x64
       MemoBuildEnabled: false
       InstallVs: false
-      VsDevCmd: '$(Build.ArtifactStagingDirectory)\msbuild\Common7\Tools\VsDevCmd.bat'
+      VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
     arm64-baseline-drop:
       Platform: arm64
       MemoBuildEnabled: false
       InstallVs: false
-      VsDevCmd: '$(Build.ArtifactStagingDirectory)\msbuild\Common7\Tools\VsDevCmd.bat'
+      VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
     x64-memobuild-drop:
       Platform: x64
       MemoBuildEnabled: true
       InstallVs: false
-      VsDevCmd: '$(Build.ArtifactStagingDirectory)\msbuild\Common7\Tools\VsDevCmd.bat'
+      VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
     arm64-memobuild-drop:
       Platform: arm64
       MemoBuildEnabled: true
       InstallVs: false
-      VsDevCmd: '$(Build.ArtifactStagingDirectory)\msbuild\Common7\Tools\VsDevCmd.bat'
+      VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
+    x64-baseline-vs:
+      Platform: x64
+      MemoBuildEnabled: false
+      InstallVs: true
+      VsDevCmd: 'C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\Tools\VsDevCmd.bat'
+    arm64-baseline-vs:
+      Platform: arm64
+      MemoBuildEnabled: false
+      InstallVs: true
+      VsDevCmd: 'C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\Tools\VsDevCmd.bat'
     x64-memobuild-vs:
       Platform: x64
       MemoBuildEnabled: true
@@ -89,15 +102,15 @@ steps:
   displayName: 'Cache MSBuild Drop'
   condition: eq(variables.InstallVs, 'false')
   inputs:
-    key: '"msbuild" | "$(MSBuildDropName)"'
-    path: '$(Build.ArtifactStagingDirectory)\msbuild'
+    key: '"$(MSBuildDropName)"'
+    path: '$(MsBuildDropTarget)'
     cacheHitVar: 'MSBUILD_RESTORED'
 - task: ms-vscs-artifact.build-tasks.artifactDropDownloadTask-1.artifactDropDownloadTask@1
   displayName: 'Download MSBuild Drop'
   inputs:
     dropServiceURI: 'https://mseng.artifacts.visualstudio.com/DefaultCollection'
     buildNumber: '$(MSBuildDropName)'
-    destinationPath: '$(Build.ArtifactStagingDirectory)\msbuild'
+    destinationPath: '$(MsBuildDropTarget)'
   condition: and(eq(variables.InstallVs, 'false'), ne(variables.MSBUILD_RESTORED, 'true'))
 
 
