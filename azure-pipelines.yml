@@ -8,8 +8,13 @@ trigger:
 
 # run every hour
 schedules:
-  - cron: 30 * * * *
-
+- cron: 30 * * * *
+  displayName: Hourly Run 
+  always: true
+  branches:
+    include:
+    - main
+    
 pool:
   name: 'MemoBuild-Pool'
 
