@@ -11,7 +11,7 @@ pool:
 
 variables:
   EnableQuickBuildCachePlugin: false
-  MSBuildDro:pName: 'memobuild-msbuild-17.6-vc/2023.08.04.2'
+  MSBuildDropName: memobuild-msbuild-17.6-vc/2023.08.04.2
   NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
   # SDL
   Codeql.Enabled: false
@@ -23,25 +23,71 @@ variables:
 
 strategy:
   matrix:
-    x64-baseline:
+    x64-baseline-drop:
       Platform: x64
       MemoBuildEnabled: false
-    arm64-baseline:
+      InstallVs: false
+      VsDevCmd: '$(Build.ArtifactStagingDirectory)\msbuild\Common7\Tools\VsDevCmd.bat'
+    arm64-baseline-drop:
       Platform: arm64
       MemoBuildEnabled: false
+      InstallVs: false
+      VsDevCmd: '$(Build.ArtifactStagingDirectory)\msbuild\Common7\Tools\VsDevCmd.bat'
     x64-memobuild-drop:
       Platform: x64
       MemoBuildEnabled: true
+      InstallVs: false
+      VsDevCmd: '$(Build.ArtifactStagingDirectory)\msbuild\Common7\Tools\VsDevCmd.bat'
     arm64-memobuild-drop:
       Platform: arm64
       MemoBuildEnabled: true
+      InstallVs: false
+      VsDevCmd: '$(Build.ArtifactStagingDirectory)\msbuild\Common7\Tools\VsDevCmd.bat'
+    x64-memobuild-vs:
+      Platform: x64
+      MemoBuildEnabled: true
+      InstallVs: true
+      VsDevCmd: 'C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\Tools\VsDevCmd.bat'
+    arm64-memobuild-vs:
+      Platform: arm64
+      MemoBuildEnabled: true
+      InstallVs: true
+      VsDevCmd: 'C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\Tools\VsDevCmd.bat'
+      
 
 steps:
 # clean up
 - script: git clean -xdf
-# set up env
+# set up env (vs preview)
+- script: |
+   cd %TEMP%
+   del vs_Professional.exe
+   
+   echo "https://github.com/microsoft/winget-pkgs/blob/48322ac87191829f17827f1fc8c4b01e6d41d6e7/manifests/m/Microsoft/VisualStudio/2022/Professional/Preview/17.8.0/Microsoft.VisualStudio.2022.Professional.Preview.installer.yaml#L46C17-L46C194"
+   curl.exe https://download.visualstudio.microsoft.com/download/pr/310e0f3c-a895-471e-a69d-385eea208620/56372fc7c44ab6dd5750bd4f1909204cc78d6eb7b0346041d027fcf556c78aba/vs_Professional.exe -o vs_Professional.exe
+   
+   vs_Professional.exe --passive --norestart --wait --config %CD%\.vsconfig
+   set VS_ERRORLEVEL=%ERRORLEVEL%
+   del vs_Professional.exe
+   
+   IF "%VS_ERRORLEVEL%"=="0" (
+     echo install success: %VS_ERRORLEVEL%
+     exit /b 0
+   )
+   IF "%VS_ERRORLEVEL%"=="3010" (
+     echo install success: %VS_ERRORLEVEL%
+     exit /b 0
+   )
+   
+   echo install fail: %VS_ERRORLEVEL%
+   exit /b %VS_ERRORLEVEL%
+  displayName: 'Install VS Preview'
+  condition: eq(variables.InstallVs, 'true')
+
+# set up env (drop)
 - task: Cache@2
   displayName: 'Cache MSBuild Drop'
+  condition: eq(variables.InstallVs, 'false')
   inputs:
     key: '"msbuild" | "$(MSBuildDropName)"'
     path: '$(Build.ArtifactStagingDirectory)\msbuild'
@@ -52,7 +98,9 @@ steps:
     dropServiceURI: 'https://mseng.artifacts.visualstudio.com/DefaultCollection'
     buildNumber: '$(MSBuildDropName)'
     destinationPath: '$(Build.ArtifactStagingDirectory)\msbuild'
-  condition: ne(variables.MSBUILD_RESTORED, 'true')
+  condition: and(eq(variables.InstallVs, 'false'), ne(variables.MSBUILD_RESTORED, 'true'))
+
+
 - task: UseDotNet@2
   displayName: 'Install .NET SDK'
   inputs:
@@ -61,10 +109,15 @@ steps:
 - task: BatchScript@1
   displayName: VsDevCmd.bat
   inputs:
-    filename: '$(Build.ArtifactStagingDirectory)\msbuild\Common7\Tools\VsDevCmd.bat'
+    filename: $(VsDevCmd)
     modifyEnvironment: true
 
 # restore
+- task: Cache@2
+  displayName: 'cache nuget packages'
+  inputs:
+    key: '"nuget"'
+    path: '$(NUGET_PACKAGES)'
 - task: NuGetAuthenticate@1
   displayName: 'NuGet Authenticate'
 - script: |
