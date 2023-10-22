@@ -98,6 +98,9 @@
 
     <!-- Change this to bust the cache -->
     <MemoBuildCacheUniverse>202310210737</MemoBuildCacheUniverse>
+
+    <!-- version of memobuild is not part of the cache key -->
+    <MemoBuildIgnoredInputPatterns>$(PackagesConfigFile)</MemoBuildIgnoredInputPatterns>
   </PropertyGroup>
 
   <Import Project="$(MemoBuildPackageRoot)\build\MemoBuild.props" Condition="'$(MemoBuildEnabled)' == 'true'" />
