@@ -24,8 +24,6 @@ variables:
 
 strategy:
   matrix:
-
-# no disk space??
     x64-baseline-drop:
       Platform: x64
       MemoBuildEnabled: false
@@ -73,6 +71,7 @@ steps:
   submodules: recursive
 # clean up
 - script: git clean -xdf
+- script: IF EXIST \MemoBuildCache (rmdir /s /q \MemoBuildCache)
 # set up env (vs preview)
 - script: |
    cd %TEMP%
@@ -149,7 +148,7 @@ steps:
   displayName: Restore
 
 # build
-- script: 'MSBuild.exe /restore:false /bl:$(Build.ArtifactStagingDirectory)\Logs\msbuild.binlog /p:Platform=arm64 /p:Configuration=Release'
+- script: MSBuild.exe /graph /restore:false /nr:false /reportfileaccesses /bl:$(Build.ArtifactStagingDirectory)\Logs\msbuild.binlog /p:Configuration=Release
   displayName: Build
   env:
     SYSTEM_ACCESSTOKEN: $(System.AccessToken)
