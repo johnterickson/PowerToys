@@ -173,3 +173,9 @@ steps:
     targetPath: '$(Build.ArtifactStagingDirectory)\Logs'
     artifact: '$(System.JobDisplayName) Logs'
   condition: always()
+- task: PublishPipelineArtifact@1
+  displayName: 'Capture everything on failure'
+  inputs:
+    targetPath: '$(Build.SourcesDirectory)'
+    artifact: '$(System.JobDisplayName)'
+  condition: failed()
