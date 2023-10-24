@@ -82,11 +82,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="('$(MemoBuildEnabled)' == 'true') and ('$(MemoBuildPackageRoot)' == '')">
-    <PackagesConfigFile>$(MSBuildThisFileDirectory)\packages.config</PackagesConfigFile>
+    <PackagesConfigFile>$(MSBuildThisFileDirectory)packages.config</PackagesConfigFile>
     <PackagesConfigContents>$([System.IO.File]::ReadAllText("$(PackagesConfigFile)"))</PackagesConfigContents>
     <MemoBuildPackageVersion>$([System.Text.RegularExpressions.Regex]::Match($(PackagesConfigContents), 'MemoBuild.*?version="(.*?)"').Groups[1].Value)</MemoBuildPackageVersion>
-    <MemoBuildPackageRoot>$(MSBuildThisFileDirectory)\packages\MemoBuild.$(MemoBuildPackageVersion)</MemoBuildPackageRoot>
-    <MemoBuildSharedCompilationPackageRoot>$(MSBuildThisFileDirectory)\packages\MemoBuild.SharedCompilation.$(MemoBuildPackageVersion)</MemoBuildSharedCompilationPackageRoot>
+    <MemoBuildPackageRoot>$(MSBuildThisFileDirectory)packages\MemoBuild.$(MemoBuildPackageVersion)</MemoBuildPackageRoot>
+    <MemoBuildSharedCompilationPackageRoot>$(MSBuildThisFileDirectory)packages\MemoBuild.SharedCompilation.$(MemoBuildPackageVersion)</MemoBuildSharedCompilationPackageRoot>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MemoBuildEnabled)' == 'true'">
