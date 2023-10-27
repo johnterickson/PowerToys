@@ -1,4 +1,4 @@
 <Project>
-  <Import Project="$(MSBuildCachePackageRoot)\build\MSBuildCache.targets" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
-  <Import Project="$(MSBuildCacheSharedCompilationPackageRoot)\build\MSBuildCache.SharedCompilation.targets" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
+  <Import Project="$(MSBuildCachePackageRoot)\build\Microsoft.MSBuildCache.targets" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
+  <Import Project="$(MSBuildCacheSharedCompilationPackageRoot)\build\Microsoft.MSBuildCache.SharedCompilation.targets" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
 </Project>

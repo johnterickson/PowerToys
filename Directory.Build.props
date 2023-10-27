@@ -103,6 +103,6 @@
     <MSBuildCacheIgnoredInputPatterns>$(PackagesConfigFile)</MSBuildCacheIgnoredInputPatterns>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildCachePackageRoot)\build\MSBuildCache.props" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
-  <Import Project="$(MSBuildCacheSharedCompilationPackageRoot)\build\MSBuildCache.SharedCompilation.props" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
+  <Import Project="$(MSBuildCachePackageRoot)\build\Microsoft.MSBuildCache.props" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
+  <Import Project="$(MSBuildCacheSharedCompilationPackageRoot)\build\Microsoft.MSBuildCache.SharedCompilation.props" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
 </Project>
