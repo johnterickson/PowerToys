@@ -84,9 +84,9 @@
   <PropertyGroup Condition="('$(MSBuildCacheEnabled)' == 'true') and ('$(MSBuildCachePackageRoot)' == '')">
     <PackagesConfigFile>$(MSBuildThisFileDirectory)packages.config</PackagesConfigFile>
     <PackagesConfigContents>$([System.IO.File]::ReadAllText("$(PackagesConfigFile)"))</PackagesConfigContents>
-    <MSBuildCachePackageVersion>$([System.Text.RegularExpressions.Regex]::Match($(PackagesConfigContents), 'MSBuildCache.*?version="(.*?)"').Groups[1].Value)</MSBuildCachePackageVersion>
-    <MSBuildCachePackageRoot>$(MSBuildThisFileDirectory)packages\MSBuildCache.$(MSBuildCachePackageVersion)</MSBuildCachePackageRoot>
-    <MSBuildCacheSharedCompilationPackageRoot>$(MSBuildThisFileDirectory)packages\MSBuildCache.SharedCompilation.$(MSBuildCachePackageVersion)</MSBuildCacheSharedCompilationPackageRoot>
+    <MSBuildCachePackageVersion>$([System.Text.RegularExpressions.Regex]::Match($(PackagesConfigContents), 'Microsoft.MSBuildCache.*?version="(.*?)"').Groups[1].Value)</MSBuildCachePackageVersion>
+    <MSBuildCachePackageRoot>$(MSBuildThisFileDirectory)packages\Microsoft.MSBuildCache.$(MSBuildCachePackageVersion)</MSBuildCachePackageRoot>
+    <MSBuildCacheSharedCompilationPackageRoot>$(MSBuildThisFileDirectory)packages\Microsoft.MSBuildCache.SharedCompilation.$(MSBuildCachePackageVersion)</MSBuildCacheSharedCompilationPackageRoot>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MSBuildCacheEnabled)' == 'true'">
