@@ -30,21 +30,21 @@
     which was already produced by another node 
     SRC_MODULES_PREVIEWPANE_MARKDOWNPREVIEWHANDLER_MARKDOWNPREVIEWHANDLER.CSPROJ_NJEM_KRAT5EYSQXF3Q89GA.
     -->
-    <MemoBuildIdenticalDuplicateOutputPatterns>$(MemoBuildIdenticalDuplicateOutputPatterns);$(Platform)\$(Configuration)\Assets\Monaco\monacoSRC\min\vs\base\common\worker\simpleWorker.nls.js</MemoBuildIdenticalDuplicateOutputPatterns>
+    <MSBuildCacheIdenticalDuplicateOutputPatterns>$(MSBuildCacheIdenticalDuplicateOutputPatterns);$(Platform)\$(Configuration)\Assets\Monaco\monacoSRC\min\vs\base\common\worker\simpleWorker.nls.js</MSBuildCacheIdenticalDuplicateOutputPatterns>
 
     <!--
     C:\src\MsBuildDrop\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(161,5): error MSB3073: The command "xcopy.exe /y "D:\src\PowerToys\packages\Microsoft.WindowsAppSDK.1.4.230913002\build\native\..\..\runtimes\win10-ARM64\native\Microsoft.WindowsAppRuntim
     e.Bootstrap.dll" "..\..\..\..\ARM64\Release\WinUI3Apps\" [D:\src\PowerToys\src\modules\MeasureTool\MeasureToolCore\PowerToys.MeasureToolCore.vcxproj]
     C:\src\MsBuildDrop\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(161,5): error MSB3073: :VCEnd" exited with code 4. [D:\src\PowerToys\src\modules\MeasureTool\MeasureToolCore\PowerToys.MeasureToolCore.vcxproj]
     -->
-    <MemoBuildIdenticalDuplicateOutputPatterns>$(MemoBuildIdenticalDuplicateOutputPatterns);$(Platform)\$(Configuration)\WinUI3Apps\Microsoft.WindowsAppRuntime.Bootstrap.dll</MemoBuildIdenticalDuplicateOutputPatterns>
+    <MSBuildCacheIdenticalDuplicateOutputPatterns>$(MSBuildCacheIdenticalDuplicateOutputPatterns);$(Platform)\$(Configuration)\WinUI3Apps\Microsoft.WindowsAppRuntime.Bootstrap.dll</MSBuildCacheIdenticalDuplicateOutputPatterns>
 
     <!-- 
     File access reported from process `Unknown Process with Id 5704` after the project finished. This may lead to incorrect caching.
     Node Id: SRC_MODULES_POWERRENAME_POWERRENAMEUILIB_POWERRENAMEUI.VCXPROJ_EACAMVG6F4CLWRQBRTAINW, 
     Path: D:\a\_work\2\s\packages\Microsoft.WindowsAppSDK.1.4.230913002\tools\net472\ApplicationInsights.config  
     -->
-    <MemoBuildAllowFileAccessAfterProjectFinishFilePatterns>packages\Microsoft.WindowsAppSDK.*\tools\net472\ApplicationInsights.config</MemoBuildAllowFileAccessAfterProjectFinishFilePatterns>
+    <MSBuildCacheAllowFileAccessAfterProjectFinishFilePatterns>packages\Microsoft.WindowsAppSDK.*\tools\net472\ApplicationInsights.config</MSBuildCacheAllowFileAccessAfterProjectFinishFilePatterns>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
@@ -75,34 +75,34 @@
     </PackageReference>
   </ItemGroup>
 
-  <!-- MEMOBUILD -->
+  <!-- MSBuildCache -->
   <PropertyGroup>
     <!-- Off by default -->
-    <MemoBuildEnabled Condition="'$(MemoBuildEnabled)' == ''">false</MemoBuildEnabled>
+    <MSBuildCacheEnabled Condition="'$(MSBuildCacheEnabled)' == ''">false</MSBuildCacheEnabled>
   </PropertyGroup>
 
-  <PropertyGroup Condition="('$(MemoBuildEnabled)' == 'true') and ('$(MemoBuildPackageRoot)' == '')">
+  <PropertyGroup Condition="('$(MSBuildCacheEnabled)' == 'true') and ('$(MSBuildCachePackageRoot)' == '')">
     <PackagesConfigFile>$(MSBuildThisFileDirectory)packages.config</PackagesConfigFile>
     <PackagesConfigContents>$([System.IO.File]::ReadAllText("$(PackagesConfigFile)"))</PackagesConfigContents>
-    <MemoBuildPackageVersion>$([System.Text.RegularExpressions.Regex]::Match($(PackagesConfigContents), 'MemoBuild.*?version="(.*?)"').Groups[1].Value)</MemoBuildPackageVersion>
-    <MemoBuildPackageRoot>$(MSBuildThisFileDirectory)packages\MemoBuild.$(MemoBuildPackageVersion)</MemoBuildPackageRoot>
-    <MemoBuildSharedCompilationPackageRoot>$(MSBuildThisFileDirectory)packages\MemoBuild.SharedCompilation.$(MemoBuildPackageVersion)</MemoBuildSharedCompilationPackageRoot>
+    <MSBuildCachePackageVersion>$([System.Text.RegularExpressions.Regex]::Match($(PackagesConfigContents), 'MSBuildCache.*?version="(.*?)"').Groups[1].Value)</MSBuildCachePackageVersion>
+    <MSBuildCachePackageRoot>$(MSBuildThisFileDirectory)packages\MSBuildCache.$(MSBuildCachePackageVersion)</MSBuildCachePackageRoot>
+    <MSBuildCacheSharedCompilationPackageRoot>$(MSBuildThisFileDirectory)packages\MSBuildCache.SharedCompilation.$(MSBuildCachePackageVersion)</MSBuildCacheSharedCompilationPackageRoot>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(MemoBuildEnabled)' == 'true'">
+  <PropertyGroup Condition="'$(MSBuildCacheEnabled)' == 'true'">
     <!-- For local testing, use L3 -->
-    <MemoBuildCacheType Condition="'$(TF_BUILD)' == ''">AzureDevOpsBuildCache</MemoBuildCacheType>
+    <MSBuildCacheCacheType Condition="'$(TF_BUILD)' == ''">AzureDevOpsBuildCache</MSBuildCacheCacheType>
 
     <!-- In Azure pipelines, use Pipeline Caching as the cache storage backend -->
-    <MemoBuildCacheType Condition="'$(TF_BUILD)' != ''">AzurePipelines</MemoBuildCacheType>
+    <MSBuildCacheCacheType Condition="'$(TF_BUILD)' != ''">AzurePipelines</MSBuildCacheCacheType>
 
     <!-- Change this to bust the cache -->
-    <MemoBuildCacheUniverse>202310210737</MemoBuildCacheUniverse>
+    <MSBuildCacheCacheUniverse>202310210737</MSBuildCacheCacheUniverse>
 
-    <!-- version of memobuild is not part of the cache key -->
-    <MemoBuildIgnoredInputPatterns>$(PackagesConfigFile)</MemoBuildIgnoredInputPatterns>
+    <!-- version of MSBuildCache is not part of the cache key -->
+    <MSBuildCacheIgnoredInputPatterns>$(PackagesConfigFile)</MSBuildCacheIgnoredInputPatterns>
   </PropertyGroup>
 
-  <Import Project="$(MemoBuildPackageRoot)\build\MemoBuild.props" Condition="'$(MemoBuildEnabled)' == 'true'" />
-  <Import Project="$(MemoBuildSharedCompilationPackageRoot)\build\MemoBuild.SharedCompilation.props" Condition="'$(MemoBuildEnabled)' == 'true'" />
+  <Import Project="$(MSBuildCachePackageRoot)\build\MSBuildCache.props" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
+  <Import Project="$(MSBuildCacheSharedCompilationPackageRoot)\build\MSBuildCache.SharedCompilation.props" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
 </Project>

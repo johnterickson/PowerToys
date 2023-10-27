@@ -8,7 +8,7 @@ IF "%PLATFORM%"=="" (
 
 set MSBUILDDEBUGONSTART_ORIGINAL=%MSBUILDDEBUGONSTART%
 set MSBUILDDEBUGONSTART=0
-rmdir /S /Q %USERPROFILE%\.nuget\packages\memobuild
+rmdir /S /Q %USERPROFILE%\.nuget\packages\MSBuildCache
 git submodule update --init --recursive
 git clean -xdf
 curl.exe https://dist.nuget.org/win-x86-commandline/v6.7.0/nuget.exe -o tools\nuget.exe
@@ -20,4 +20,4 @@ IF "%SYSTEM_TEAMFOUNDATIONCOLLECTIONURI%"=="https://dev.azure.com/artifactsandbo
 MSBuild.exe /t:restore /p:Platform=%PLATFORM% || exit /b 1
 set MSBUILDDEBUGONSTART=%MSBUILDDEBUGONSTART_ORIGINAL%
 echo MSBUILDDEBUGONSTART=%MSBUILDDEBUGONSTART%
-MSBuild.exe /graph /restore:false /nr:false /reportfileaccesses /bl /p:Platform=%PLATFORM% /p:MemoBuildEnabled=true %*
+MSBuild.exe /graph /restore:false /nr:false /reportfileaccesses /bl /p:Platform=%PLATFORM% /p:MSBuildCacheEnabled=true %*

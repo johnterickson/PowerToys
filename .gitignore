@@ -349,8 +349,8 @@ src/common/Telemetry/*.etl
 # Generated installer file for Monaco source files.
 /installer/PowerToysSetup/MonacoSRC.wxs
 
-# MemoBuild
-/MemoBuildLogs/
+# MSBuildCache
+/MSBuildCacheLogs/
 
 # nuget
 /tools/nuget.exe

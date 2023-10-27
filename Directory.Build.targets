@@ -1,4 +1,4 @@
 <Project>
-  <Import Project="$(MemoBuildPackageRoot)\build\MemoBuild.targets" Condition="'$(MemoBuildEnabled)' == 'true'" />
-  <Import Project="$(MemoBuildSharedCompilationPackageRoot)\build\MemoBuild.SharedCompilation.targets" Condition="'$(MemoBuildEnabled)' == 'true'" />
+  <Import Project="$(MSBuildCachePackageRoot)\build\MSBuildCache.targets" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
+  <Import Project="$(MSBuildCacheSharedCompilationPackageRoot)\build\MSBuildCache.SharedCompilation.targets" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
 </Project>

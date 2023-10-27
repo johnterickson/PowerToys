@@ -35,42 +35,42 @@ strategy:
   matrix:
     x64-baseline-drop:
       Platform: x64
-      MemoBuildEnabled: false
+      MSBuildCacheEnabled: false
       InstallVs: false
       VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
     arm64-baseline-drop:
       Platform: arm64
-      MemoBuildEnabled: false
+      MSBuildCacheEnabled: false
       InstallVs: false
       VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
-    x64-memobuild-drop:
+    x64-MSBuildCache-drop:
       Platform: x64
-      MemoBuildEnabled: true
+      MSBuildCacheEnabled: true
       InstallVs: false
       VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
-    arm64-memobuild-drop:
+    arm64-MSBuildCache-drop:
       Platform: arm64
-      MemoBuildEnabled: true
+      MSBuildCacheEnabled: true
       InstallVs: false
       VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
     x64-baseline-vs:
       Platform: x64
-      MemoBuildEnabled: false
+      MSBuildCacheEnabled: false
       InstallVs: true
       VsDevCmd: 'C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\Tools\VsDevCmd.bat'
     arm64-baseline-vs:
       Platform: arm64
-      MemoBuildEnabled: false
+      MSBuildCacheEnabled: false
       InstallVs: true
       VsDevCmd: 'C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\Tools\VsDevCmd.bat'
-    x64-memobuild-vs:
+    x64-MSBuildCache-vs:
       Platform: x64
-      MemoBuildEnabled: true
+      MSBuildCacheEnabled: true
       InstallVs: true
       VsDevCmd: 'C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\Tools\VsDevCmd.bat'
-    arm64-memobuild-vs:
+    arm64-MSBuildCache-vs:
       Platform: arm64
-      MemoBuildEnabled: true
+      MSBuildCacheEnabled: true
       InstallVs: true
       VsDevCmd: 'C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\Tools\VsDevCmd.bat'
       
@@ -80,7 +80,7 @@ steps:
   submodules: recursive
 # clean up
 - script: git clean -xdf
-- script: IF EXIST \MemoBuildCache (rmdir /s /q \MemoBuildCache)
+- script: IF EXIST \MSBuildCacheCache (rmdir /s /q \MSBuildCacheCache)
 # set up env (vs preview)
 - script: |
    cd %TEMP%
@@ -146,10 +146,10 @@ steps:
   displayName: 'NuGet Authenticate'
 - script: curl.exe https://dist.nuget.org/win-x86-commandline/v6.7.0/nuget.exe -o tools\nuget.exe
   displayName: 'acquire nuget'
-# restore memobuild
+# restore MSBuildCache
 - script: tools\nuget restore packages.config -SolutionDirectory .
-  displayName: 'nuget restore memobuild'
-  condition: eq(variables.MemoBuildEnabled, 'true')
+  displayName: 'nuget restore MSBuildCache'
+  condition: eq(variables.MSBuildCacheEnabled, 'true')
 # restore
 - script: tools\nuget restore .\PowerToys.sln
   displayName: 'nuget restore'
@@ -163,10 +163,10 @@ steps:
     SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 
 # logs
-- script: move MemoBuildLogs $(Build.ArtifactStagingDirectory)\Logs\
-  displayName: 'Capture MemoBuildLogs'
+- script: move MSBuildCacheLogs $(Build.ArtifactStagingDirectory)\Logs\
+  displayName: 'Capture MSBuildCacheLogs'
   continueOnError: true
-  condition: eq(variables.MemoBuildEnabled, 'true')
+  condition: eq(variables.MSBuildCacheEnabled, 'true')
 - task: PublishPipelineArtifact@1
   displayName: 'Publish Logs'
   inputs:
