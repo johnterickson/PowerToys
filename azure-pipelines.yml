@@ -33,26 +33,26 @@ variables:
 
 strategy:
   matrix:
-    x64-baseline-drop:
-      Platform: x64
-      MSBuildCacheEnabled: false
-      InstallVs: false
-      VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
-    arm64-baseline-drop:
-      Platform: arm64
-      MSBuildCacheEnabled: false
-      InstallVs: false
-      VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
-    x64-MSBuildCache-drop:
-      Platform: x64
-      MSBuildCacheEnabled: true
-      InstallVs: false
-      VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
-    arm64-MSBuildCache-drop:
-      Platform: arm64
-      MSBuildCacheEnabled: true
-      InstallVs: false
-      VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
+    # x64-baseline-drop:
+    #   Platform: x64
+    #   MSBuildCacheEnabled: false
+    #   InstallVs: false
+    #   VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
+    # arm64-baseline-drop:
+    #   Platform: arm64
+    #   MSBuildCacheEnabled: false
+    #   InstallVs: false
+    #   VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
+    # x64-MSBuildCache-drop:
+    #   Platform: x64
+    #   MSBuildCacheEnabled: true
+    #   InstallVs: false
+    #   VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
+    # arm64-MSBuildCache-drop:
+    #   Platform: arm64
+    #   MSBuildCacheEnabled: true
+    #   InstallVs: false
+    #   VsDevCmd: '$(MsBuildDropTarget)\Common7\Tools\VsDevCmd.bat'
     x64-baseline-vs:
       Platform: x64
       MSBuildCacheEnabled: false
