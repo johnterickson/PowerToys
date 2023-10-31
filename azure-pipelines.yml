@@ -86,8 +86,8 @@ steps:
    cd %TEMP%
    del vs_Professional.exe
    
-   echo "https://github.com/microsoft/winget-pkgs/blob/738932a9e553cdbf68ae3549724e9b5b9693acb1/manifests/m/Microsoft/VisualStudio/2022/Professional/Preview/17.8.0/Microsoft.VisualStudio.2022.Professional.Preview.installer.yaml#L46"
-   curl.exe https://download.visualstudio.microsoft.com/download/pr/6cdb14b1-0cd0-4ed6-819f-a7ed608edf74/c215bccf7b7a69a9ae63874c1b14d845bf89e5860dac2ee6d5219d80e5562c89/vs_Professional.exe -o vs_Professional.exe
+   echo "https://github.com/microsoft/winget-pkgs/pull/124369"
+   curl.exe https://download.visualstudio.microsoft.com/download/pr/edd57c24-4450-4df0-807b-73cd92961610/2db8f7f4b7202645052c8dc015d2c141ee484edc2c04c5bc18f5dc854f634a3b/vs_Enterprise.exe -o vs_Professional.exe
    
    vs_Professional.exe --passive --norestart --wait --config %CD%\.vsconfig
    set VS_ERRORLEVEL=%ERRORLEVEL%
