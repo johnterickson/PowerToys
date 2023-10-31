@@ -101,9 +101,11 @@ steps:
      echo install success: %VS_ERRORLEVEL%
      exit /b 0
    )
-   
+
    echo install fail: %VS_ERRORLEVEL%
-   exit /b %VS_ERRORLEVEL%
+
+   CALL $(VsDevCmd)
+   msbuild --version
   displayName: 'Install VS Preview'
   condition: eq(variables.InstallVs, 'true')
 
