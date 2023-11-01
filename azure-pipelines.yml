@@ -84,14 +84,13 @@ steps:
 # set up env (vs preview)
 - script: |
    cd %TEMP%
-   del vs_Professional.exe
+   del vs_enterprise.exe
    
-   echo https://github.com/microsoft/winget-pkgs/pull/124370
-   curl.exe https://download.visualstudio.microsoft.com/download/pr/edd57c24-4450-4df0-807b-73cd92961610/4e675e65a68999962836aba83780478ff27d1032403a40802b3214d3e9d18142/vs_Professional.exe -o vs_Professional.exe
+   curl.exe -L https://aka.ms/vs/17/pre/vs_enterprise.exe -o vs_enterprise.exe
    
-   vs_Professional.exe --passive --norestart --wait --config %CD%\.vsconfig
+   vs_enterprise.exe --passive --norestart --wait --config %CD%\.vsconfig
    set VS_ERRORLEVEL=%ERRORLEVEL%
-   del vs_Professional.exe
+   del vs_enterprise.exe
    
    IF "%VS_ERRORLEVEL%"=="0" (
      echo install success: %VS_ERRORLEVEL%
