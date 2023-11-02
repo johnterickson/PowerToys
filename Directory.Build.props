@@ -37,7 +37,15 @@
     e.Bootstrap.dll" "..\..\..\..\ARM64\Release\WinUI3Apps\" [D:\src\PowerToys\src\modules\MeasureTool\MeasureToolCore\PowerToys.MeasureToolCore.vcxproj]
     C:\src\MsBuildDrop\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(161,5): error MSB3073: :VCEnd" exited with code 4. [D:\src\PowerToys\src\modules\MeasureTool\MeasureToolCore\PowerToys.MeasureToolCore.vcxproj]
     -->
-    <MSBuildCacheIdenticalDuplicateOutputPatterns>$(MSBuildCacheIdenticalDuplicateOutputPatterns);$(Platform)\$(Configuration)\WinUI3Apps\Microsoft.WindowsAppRuntime.Bootstrap.dll</MSBuildCacheIdenticalDuplicateOutputPatterns>
+    <!-- 
+    D:\a\_work\1\s\src\settings-ui\Settings.UI\PowerToys.Settings.csproj : error : Node 
+    SRC_SETTINGS-UI_SETTINGS.UI_POWERTOYS.SETTINGS.CSPROJ_6KXQANPYGRE0EP5J5I0YPA 
+    produced output 
+    ARM64\Release\WinUI3Apps\af-ZA\Microsoft.ui.xaml.dll.mui
+    which was already produced by another node 
+    SRC_MODULES_POWERRENAME_POWERRENAMEUILIB_POWERRENAMEUI.VCXPROJ_6KXQANPYGRE0EP5J5I0YPA.
+    --> 
+    <MSBuildCacheIdenticalDuplicateOutputPatterns>$(MSBuildCacheIdenticalDuplicateOutputPatterns);$(Platform)\$(Configuration)\WinUI3Apps\**</MSBuildCacheIdenticalDuplicateOutputPatterns>
 
     <!-- 
     File access reported from process `Unknown Process with Id 5704` after the project finished. This may lead to incorrect caching.
