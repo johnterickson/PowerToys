@@ -92,8 +92,8 @@
   <PropertyGroup Condition="('$(MSBuildCacheEnabled)' == 'true') and ('$(MSBuildCachePackageRoot)' == '')">
     <PackagesConfigFile>$(MSBuildThisFileDirectory)packages.config</PackagesConfigFile>
     <PackagesConfigContents>$([System.IO.File]::ReadAllText("$(PackagesConfigFile)"))</PackagesConfigContents>
-    <MSBuildCachePackageVersion>$([System.Text.RegularExpressions.Regex]::Match($(PackagesConfigContents), 'Microsoft.MSBuildCache.*?version="(.*?)"').Groups[1].Value)</MSBuildCachePackageVersion>
-    <MSBuildCachePackageRoot>$(MSBuildThisFileDirectory)packages\Microsoft.MSBuildCache.$(MSBuildCachePackageVersion)</MSBuildCachePackageRoot>
+    <MSBuildCachePackageVersion>$([System.Text.RegularExpressions.Regex]::Match($(PackagesConfigContents), 'Microsoft.MSBuildCache.AzurePipelines.*?version="(.*?)"').Groups[1].Value)</MSBuildCachePackageVersion>
+    <MSBuildCachePackageRoot>$(MSBuildThisFileDirectory)packages\Microsoft.MSBuildCache.AzurePipelines.$(MSBuildCachePackageVersion)</MSBuildCachePackageRoot>
     <MSBuildCacheSharedCompilationPackageRoot>$(MSBuildThisFileDirectory)packages\Microsoft.MSBuildCache.SharedCompilation.$(MSBuildCachePackageVersion)</MSBuildCacheSharedCompilationPackageRoot>
   </PropertyGroup>
 
@@ -111,6 +111,6 @@
     <MSBuildCacheIgnoredInputPatterns>$(PackagesConfigFile)</MSBuildCacheIgnoredInputPatterns>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildCachePackageRoot)\build\Microsoft.MSBuildCache.props" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
+  <Import Project="$(MSBuildCachePackageRoot)\build\Microsoft.MSBuildCache.AzurePipelines.props" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
   <Import Project="$(MSBuildCacheSharedCompilationPackageRoot)\build\Microsoft.MSBuildCache.SharedCompilation.props" Condition="'$(MSBuildCacheEnabled)' == 'true'" />
 </Project>
