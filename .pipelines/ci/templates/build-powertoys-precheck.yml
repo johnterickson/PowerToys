@@ -2,11 +2,12 @@
 jobs:
 - job: Precheck
   pool:
-    demands: ImageOverride -equals SHINE-VS17-Latest
+    # demands: ImageOverride -equals SHINE-VS17-Latest
     ${{ if eq(variables['System.CollectionUri'], 'https://dev.azure.com/ms/') }}:
       name: SHINE-OSS-L
     ${{ if ne(variables['System.CollectionUri'], 'https://dev.azure.com/ms/') }}:
-      name: SHINE-INT-L
+      # name: SHINE-INT-L
+      name: MemoBuild-Pool
   steps:
   - checkout: none
 

@@ -12,6 +12,15 @@ trigger:
       - tools/*
       - '**.md'
 
+# run every hour on the half-hour
+schedules:
+- cron: 30 * * * *
+  displayName: Hourly Run 
+  always: true
+  branches:
+    include:
+    - main
+
 pr:
   branches:
     include:
@@ -27,7 +36,9 @@ pr:
 name: 0.0.$(Date:yyMM).$(Date:dd)$(Rev:rr)
 
 variables:
+  VSO_DEDUP_REDIRECT_TIMEOUT_IN_SEC: 5
   EnablePipelineCache: true
+  NUGET_PACKAGES: R:\.nuget\packages
 
 jobs:
   - template: ./templates/build-powertoys-precheck.yml
