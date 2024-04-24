@@ -18,7 +18,7 @@ steps:
     del dd_*
     del vs_enterprise.exe
     
-    curl.exe -L https://aka.ms/vs/17/release/vs_enterprise.exe -o vs_enterprise.exe
+    curl.exe -L https://aka.ms/vs/17/pre/vs_enterprise.exe -o vs_enterprise.exe
     
     vs_enterprise.exe --passive --norestart --wait --config %CD%\.vsconfig
     set VS_ERRORLEVEL=%ERRORLEVEL%
@@ -40,7 +40,7 @@ steps:
 
     echo install fail: %VS_ERRORLEVEL%
 
-    CALL "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat"
+    CALL "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\Common7\Tools\VsDevCmd.bat"
     msbuild --version
   displayName: 'Install VS'
 
