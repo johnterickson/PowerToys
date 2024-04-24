@@ -12,37 +12,37 @@ steps:
   submodules: true
   clean: true
 
-# - script: |
-#     cd %TEMP%
-#     echo delete old logs
-#     del dd_*
-#     del vs_enterprise.exe
+- script: |
+    cd %TEMP%
+    echo delete old logs
+    del dd_*
+    del vs_enterprise.exe
     
-#     curl.exe -L https://aka.ms/vs/17/pre/vs_enterprise.exe -o vs_enterprise.exe
+    curl.exe -L https://aka.ms/vs/17/release/vs_enterprise.exe -o vs_enterprise.exe
     
-#     vs_enterprise.exe --passive --norestart --wait --config %CD%\.vsconfig
-#     set VS_ERRORLEVEL=%ERRORLEVEL%
-#     del vs_enterprise.exe
+    vs_enterprise.exe --passive --norestart --wait --config %CD%\.vsconfig
+    set VS_ERRORLEVEL=%ERRORLEVEL%
+    del vs_enterprise.exe
 
-#     echo store logs
-#     mkdir "$(Build.ArtifactStagingDirectory)\logs"
-#     mkdir "$(Build.ArtifactStagingDirectory)\logs\VSSetup"
-#     move dd_* "$(Build.ArtifactStagingDirectory)\logs\VSSetup\"
+    echo store logs
+    mkdir "$(Build.ArtifactStagingDirectory)\logs"
+    mkdir "$(Build.ArtifactStagingDirectory)\logs\VSSetup"
+    move dd_* "$(Build.ArtifactStagingDirectory)\logs\VSSetup\"
     
-#     IF "%VS_ERRORLEVEL%"=="0" (
-#       echo install success: %VS_ERRORLEVEL%
-#       exit /b 0
-#     )
-#     IF "%VS_ERRORLEVEL%"=="3010" (
-#       echo install success: %VS_ERRORLEVEL%
-#       exit /b 0
-#     )
+    IF "%VS_ERRORLEVEL%"=="0" (
+      echo install success: %VS_ERRORLEVEL%
+      exit /b 0
+    )
+    IF "%VS_ERRORLEVEL%"=="3010" (
+      echo install success: %VS_ERRORLEVEL%
+      exit /b 0
+    )
 
-#     echo install fail: %VS_ERRORLEVEL%
+    echo install fail: %VS_ERRORLEVEL%
 
-#     CALL "%ProgramFiles%\Microsoft Visual Studio\2022\Preview\Common7\Tools\VsDevCmd.bat"
-#     msbuild --version
-#   displayName: 'Install VS Preview'
+    CALL "%ProgramFiles%\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\VsDevCmd.bat"
+    msbuild --version
+  displayName: 'Install VS'
 
 - task: UseDotNet@2
   displayName: 'Use .NET 6 SDK'
