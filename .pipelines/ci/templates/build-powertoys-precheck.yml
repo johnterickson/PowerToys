@@ -7,7 +7,7 @@ jobs:
       name: SHINE-OSS-L
     ${{ if ne(variables['System.CollectionUri'], 'https://dev.azure.com/ms/') }}:
       # name: SHINE-INT-L
-      name: MemoBuild-Pool
+      name: MemoBuild-Pool-WCUS
   steps:
   - checkout: none
 
