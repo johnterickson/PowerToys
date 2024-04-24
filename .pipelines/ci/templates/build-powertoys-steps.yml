@@ -27,7 +27,7 @@ steps:
     echo store logs
     mkdir "$(Build.ArtifactStagingDirectory)\logs"
     mkdir "$(Build.ArtifactStagingDirectory)\logs\VSSetup"
-    move dd_* "$(Build.ArtifactStagingDirectory)\logs\VSSetup\"
+    move %TEMP%\dd_* "$(Build.ArtifactStagingDirectory)\logs\VSSetup\"
     
     IF "%VS_ERRORLEVEL%"=="0" (
       echo install success: %VS_ERRORLEVEL%
