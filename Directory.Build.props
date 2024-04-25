@@ -84,9 +84,10 @@
       \**\ApplicationInsights.config;
       $(LocalAppData)\Microsoft\VSApplicationInsights\**;
       $(LocalAppData)\Microsoft\Windows\INetCache\**;
-      A:\;
-      E:\;
-      $(windir)\**
+      A:\**;
+      E:\**;
+      $(windir)\**;
+      $(TEMP)\**
     </MSBuildCacheAllowFileAccessAfterProjectFinishFilePatterns>
 
     <!-- Unit tests of low-priv processes, eg the preview handler tests, may log to this location. -->
